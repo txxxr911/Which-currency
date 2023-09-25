@@ -56,6 +56,8 @@ class CurrencyListTableViewCell: UITableViewCell {
         
     }()
     
+    var changeCondition: (() -> Void)?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: "CurrencyListCellIdentifier")
         
@@ -83,7 +85,8 @@ class CurrencyListTableViewCell: UITableViewCell {
         view.setupView(valuteLabel)
         view.setupView(valuteNameLabel)
         view.setupView(currentRateLabel)
-        view.setupView(favouriteButton)
+        
+        contentView.setupView(favouriteButton)
         
         NSLayoutConstraint.activate([
             
@@ -105,18 +108,37 @@ class CurrencyListTableViewCell: UITableViewCell {
             
             favouriteButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             favouriteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            favouriteButton.widthAnchor.constraint(equalToConstant: 60),
-            favouriteButton.heightAnchor.constraint(equalToConstant: 60)
+            favouriteButton.widthAnchor.constraint(equalToConstant: 30),
+            favouriteButton.heightAnchor.constraint(equalToConstant: 30)
             
         ])
     }
     
-    func setup(symbol: String, rate: String, name: String, isFavourited: Bool) {
-        
+    func setup(symbol: String, rate: String, name: String, isFavourited: Bool)  -> CurrencyListTableViewCell {
+                
         self.valuteLabel.text = Resources.Strings.Currencies.symbol(for: symbol)
-        self.currentRateLabel.text = rate
-        self.valuteNameLabel.text = name
-        self.favouriteButton.tintColor = isFavourited ? Resources.Colors.favouriteStarColor : .gray
         
+        self.currentRateLabel.text = rate
+        
+        self.valuteNameLabel.text = name
+        
+        self.favouriteButton.tintColor = isFavourited ? Resources.Colors.favouriteStarColor : .gray
+        self.favouriteButton.addTarget(self, action: #selector(changeConditionButtonDidTap), for: .touchUpInside)
+        
+        
+        return self
     }
+    
+    @objc func changeConditionButtonDidTap(_ sender: UIButton) {
+        changeCondition?()
+    }
+}
+
+extension CurrencyListTableViewCell {
+    
+    func addChangeCondition(condition: @escaping () -> Void) -> CurrencyListTableViewCell {
+        changeCondition = condition
+        return self
+    }
+    
 }

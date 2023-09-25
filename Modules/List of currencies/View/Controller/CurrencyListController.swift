@@ -17,6 +17,7 @@ final class CurrencyListController: BaseController {
     
     var tableView = UITableView()
     
+    
 //    let button: UIButton = {
 //        
 //        let button = UIButton()
@@ -55,9 +56,10 @@ final class CurrencyListController: BaseController {
         UserDefaults.standard.set(["USD", "EUR", "AUD"], forKey: "FavouriteCurrencies")
     }
     
-    @objc func toggleFavouriteCurrency() {
+    func toggleFavouriteCurrency(index: Int) {
         
-        viewModel
+        viewModel?.didTapStar(index: index)
+        print("tapped button \(index)")
         
     }
     

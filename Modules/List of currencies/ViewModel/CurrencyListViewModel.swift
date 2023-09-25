@@ -42,9 +42,17 @@ class CurrencyListViewModel {
         
     }
     
-    func didTapStar(_ index: Int) {
+    func didTapStar(index: Int) {
         
-        
+        currencyListModel?.toggleCurrencyFavourite(index: index, didToggle: { [weak self] valutes in
+            
+            self?.listOfCurrencies.onNext(valutes!.sorted { elem1, elem2 in
+                
+                elem1.isFavourite && !elem2.isFavourite
+                
+            })
+            
+        })
         
     }
     

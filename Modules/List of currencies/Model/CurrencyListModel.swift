@@ -57,11 +57,12 @@ class CurrencyListModel {
             
             valutes?.values.forEach({ valute in
                 
-                var valuteElement = CurrencyListElement(charCode: valute.charCode, currentValue: String(valute.value), valuteName: valute.name, isFavourite: self.checkCurrencyIsFavourite(valuteCharCode: valute.charCode))
+                let valuteElement = CurrencyListElement(charCode: valute.charCode, currentValue: String(valute.value), valuteName: valute.name, isFavourite: self.checkCurrencyIsFavourite(valuteCharCode: valute.charCode))
                 
                 currencyList.append(valuteElement )
             })
             
+            self.currencyList = currencyList
             didGet(currencyList)
             
         }
@@ -74,6 +75,11 @@ class CurrencyListModel {
         
     }
     
+    func toggleCurrencyFavourite(index: Int, didToggle: @escaping ([CurrencyListElement]?) -> Void) {
+        
+        self.currencyList?[index].isFavourite.toggle()
+        didToggle(currencyList)
+    }
     
 }
 
