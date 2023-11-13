@@ -17,9 +17,7 @@ extension FavouriteController: UITableViewDelegate, UITableViewDataSource {
         viewModel?.favoritesCurrencies
             .subscribe(onNext: { currencies in
                 // Update your UI or perform other actions with the updated currency data
-                print("Updated currencies:", currencies)
-                
-                
+            
             })
             .disposed(by: disposeBag)
         

@@ -18,18 +18,6 @@ final class CurrencyListController: BaseController {
     var tableView = UITableView()
     
     
-//    let button: UIButton = {
-//        
-//        let button = UIButton()
-//        
-//        button.setTitle("add dirty green valute and eur", for: .normal)
-//        button.backgroundColor = .blue
-//        
-//        button.addTarget(self, action: #selector(save), for: .touchUpInside)
-//        return button
-//    }()
-    
-    
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -59,7 +47,6 @@ final class CurrencyListController: BaseController {
     func toggleFavouriteCurrency(index: Int) {
         
         viewModel?.didTapStar(index: index)
-        print("tapped button \(index)")
         
     }
     
@@ -68,15 +55,6 @@ final class CurrencyListController: BaseController {
         
         title = Resources.Strings.TabBar.title(for: .currencyList)
         
-//        view.setupView(button)
-//
-//        NSLayoutConstraint.activate([
-//
-//            button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            button.widthAnchor.constraint(equalTo: view.widthAnchor),
-//            button.heightAnchor.constraint(equalToConstant: 50)
-//
-//        ])
     }
     
 }

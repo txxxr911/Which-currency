@@ -30,6 +30,7 @@ class FavouritesViewModel {
             
             guard valutes != nil else {
                 didFetch()
+                self?.favoritesCurrencies.onNext([])
                 return
                 
             }

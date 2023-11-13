@@ -12,7 +12,7 @@ class CurrencyListModel {
     private let dataFetchService: DataFetchService?
     private let dataManagerService: DataManagerService?
     
-    var favouriteCurrenciesCharCodes = ["EUR", "USD"]
+    var favouriteCurrenciesCharCodes: [String] = []
     
     var currencyList: [CurrencyListElement]?
     
@@ -22,9 +22,55 @@ class CurrencyListModel {
         self.dataFetchService = DataFetchService()
         self.dataManagerService = DataManagerService()
         
+        self.favouriteCurrenciesCharCodes = self.dataManagerService?.getFavouritesCurrencies() ?? []
+        
+        self.markFavouritesValutes()
+        
         self.updateFavouritesDataArray()
         
+        self.sortCurrenciesByFavourites()
         
+        
+    }
+    
+    func markFavouritesValutes() {
+        
+        var favouriteCurrenciesDict: [String:Bool] = [:]
+        
+        self.favouriteCurrenciesCharCodes.forEach({ charCode in
+            
+            favouriteCurrenciesDict[charCode] = true
+            
+        })
+        
+        guard let currencyListCount = self.currencyList?.count else {return}
+        
+        for index in 0..<currencyListCount {
+            
+            let element = currencyList?[index]
+            
+            if let isFavourite = favouriteCurrenciesDict[element?.charCode ?? ""] {
+                
+                currencyList?[index].isFavourite = isFavourite
+                
+            }
+            
+            else {
+                
+                currencyList?[index].isFavourite = false
+            }
+            
+        }
+        
+    }
+    
+    func sortCurrenciesByFavourites() {
+        
+        self.currencyList = self.currencyList?.sorted(by: { elem1, elem2 in
+            
+            elem1.isFavourite && !elem2.isFavourite
+            
+        })
     }
     
     func updateListOfCurrencies() {
@@ -63,7 +109,9 @@ class CurrencyListModel {
             })
             
             self.currencyList = currencyList
-            didGet(currencyList)
+            self.sortCurrenciesByFavourites()
+            
+            didGet(self.currencyList)
             
         }
         
@@ -77,7 +125,38 @@ class CurrencyListModel {
     
     func toggleCurrencyFavourite(index: Int, didToggle: @escaping ([CurrencyListElement]?) -> Void) {
         
+        switch(self.currencyList?[index].isFavourite) {
+            
+        case true:
+            
+            
+            self.favouriteCurrenciesCharCodes.removeAll { string in
+                string == self.currencyList?[index].charCode ?? ""
+            }
+            
+            break;
+            
+            
+        case false:
+            
+            
+            self.favouriteCurrenciesCharCodes.append(self.currencyList?[index].charCode ?? "")
+            break;
+
+        case .none:
+            return
+        case .some(_):
+            return
+        }
+        
         self.currencyList?[index].isFavourite.toggle()
+    
+        self.sortCurrenciesByFavourites()
+       
+        
+        self.dataManagerService?.saveFavouritesCurrencies(self.favouriteCurrenciesCharCodes)
+        
+        
         didToggle(currencyList)
     }
     

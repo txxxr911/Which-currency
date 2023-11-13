@@ -13,7 +13,7 @@ class FavouriteModel {
     private let dataManagerService: DataManagerService?
     
     // потом поменять на пустой массив
-    var favouriteCurrenciesCharCodes = ["EUR", "USD"]
+    var favouriteCurrenciesCharCodes: [String] = []
     
     var favouriteCurrencies: [FavouriteValute] = [FavouriteValute]()
     
@@ -34,7 +34,10 @@ class FavouriteModel {
     
     func getFavouriteCurrenciesRates(didGet: @escaping ([FavouriteValute]?) -> Void) {
         
+        
         self.updateFavouritesDataArray()
+        
+        print("fav valutes: \(self.favouriteCurrenciesCharCodes)")
         
         fetchExchangeRates { [weak self] result in
             

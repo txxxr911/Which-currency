@@ -42,7 +42,6 @@ final class FavouriteController: BaseController {
     }
     
     @objc func updateCurrencies(_ sender: UIRefreshControl) {
-        print("data fetching")
         viewModel?.fetchCurrenciesData {
             
             DispatchQueue.main.async {

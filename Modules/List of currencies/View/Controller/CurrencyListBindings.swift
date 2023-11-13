@@ -40,7 +40,7 @@ extension CurrencyListController: UITableViewDataSource, UITableViewDelegate {
         
         viewModel?.listOfCurrencies
             .subscribe(onNext: { currencies in
-                print("Updated currencies:", currencies)
+
             })
             .disposed(by: disposeBag)
         

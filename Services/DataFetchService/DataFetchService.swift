@@ -41,6 +41,7 @@ final class DataFetchService {
         
     }
     
+    
     private func decodeCurrencyResponse(from data: Data?) throws -> CurrencyResponse? {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase

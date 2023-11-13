@@ -38,6 +38,29 @@ class FavouriteCurrencyTableViewCell: UITableViewCell {
         return label
     }()
     
+    let arrowImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        
+//        image.renderingMode = .alwaysTemplate
+//        image.size.width = 50
+//        image.size.height = 50
+        
+        
+        
+        return imageView
+        
+    }()
+    
+    let rateChangingLabel: UILabel = {
+        
+        let label = UILabel()
+        label.font = Resources.Fonts.helvelticaRegular(with: 14)
+        label.textColor = Resources.Colors.titleGray
+        label.textAlignment = .left
+        return label
+    }()
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: "FavouriteCurrencyCellIdentifier")
@@ -69,8 +92,12 @@ class FavouriteCurrencyTableViewCell: UITableViewCell {
     fileprivate func layout() {
         
         setupView(view)
+        
         view.setupView(valuteLabel)
         view.setupView(currentRateLabel)
+        view.setupView(arrowImageView)
+        view.setupView(rateChangingLabel)
+        
         
         NSLayoutConstraint.activate([
             
@@ -84,7 +111,20 @@ class FavouriteCurrencyTableViewCell: UITableViewCell {
             
             currentRateLabel.leadingAnchor.constraint(equalTo: valuteLabel.trailingAnchor, constant: 10),
             currentRateLabel.centerYAnchor.constraint(equalTo: valuteLabel.centerYAnchor),
-            currentRateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+            currentRateLabel.widthAnchor.constraint(equalToConstant: 100),
+//            currentRateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
+            arrowImageView.topAnchor.constraint(equalTo: currentRateLabel.bottomAnchor, constant: 10),
+            arrowImageView.leadingAnchor.constraint(equalTo: currentRateLabel.leadingAnchor, constant: 20),
+            arrowImageView.widthAnchor.constraint(equalToConstant: 15),
+            arrowImageView.heightAnchor.constraint(equalToConstant: 15),
+            
+            rateChangingLabel.topAnchor.constraint(equalTo: currentRateLabel.bottomAnchor),
+            rateChangingLabel.leadingAnchor.constraint(equalTo: arrowImageView.trailingAnchor),
+            rateChangingLabel.centerYAnchor.constraint(equalTo: arrowImageView.centerYAnchor),
+            rateChangingLabel.widthAnchor.constraint(equalToConstant: 150),
+            rateChangingLabel.heightAnchor.constraint(equalToConstant: 150),
+            
             
         ])
         
@@ -92,9 +132,49 @@ class FavouriteCurrencyTableViewCell: UITableViewCell {
     
     func setup(valute: FavouriteValute) -> FavouriteCurrencyTableViewCell {
         
-        self.valuteLabel.text = valute.charCode
+        self.valuteLabel.text =  Resources.Strings.Currencies.symbol(for: valute.charCode)
         self.currentRateLabel.text = String(valute.currentValue).replacingOccurrences(of: ".", with: ",")
         
+        self.rateChangingLabel.text = String(defineRateChanging(currentRate: valute.currentValue, lastRate: valute.lastValue)) + "%"
+        self.rateChangingLabel.textColor = defineColor(currentRate: valute.currentValue, lastRate: valute.lastValue) ? .green : .red
+        
+        self.arrowImageView.image = defineImage(currentRate: valute.currentValue, lastRate: valute.lastValue)
+        
         return self
+    }
+    
+    private func defineImage(currentRate: Double, lastRate: Double) -> UIImage? {
+        
+        if currentRate > lastRate {
+            
+            return UIImage(named: "arrowBottom")
+            
+        }
+        
+        else {
+            
+            return UIImage(named: "arrowTop")
+            
+        }
+        
+    }
+    
+    private func defineRateChanging(currentRate: Double, lastRate: Double) -> Double {
+        
+        let percent = currentRate / 100
+        
+        let rateChanging = abs(currentRate - lastRate)
+        
+        let percentChanging = (rateChanging / percent)
+        
+        let roundedPercent = round(100 * percentChanging) / 100
+        
+        return roundedPercent
+    }
+    
+    private func defineColor(currentRate: Double, lastRate: Double) -> Bool {
+        
+        currentRate > lastRate ? false : true
+        
     }
 }
