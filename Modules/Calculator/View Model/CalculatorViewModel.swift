@@ -46,7 +46,7 @@ class CalculatorViewModel {
         
         firstCurrencyName.onNext(name)
         calculatorModel.changeName(valueType: .first, name: name)
-        secondCurrencyValue.onNext(calculatorModel.calculateValue(valueType: .second))
+        firstCurrencyValue.onNext(calculatorModel.calculateValue(valueType: .first))
         
     }
     
@@ -56,7 +56,7 @@ class CalculatorViewModel {
         
         secondCurrencyName.onNext(name)
         calculatorModel.changeName(valueType: .second, name: name)
-        firstCurrencyValue.onNext(calculatorModel.calculateValue(valueType: .first))
+        secondCurrencyValue.onNext(calculatorModel.calculateValue(valueType: .second))
     }
     
     func firstCurrencyValueDidChange(to value: String) {
@@ -64,7 +64,6 @@ class CalculatorViewModel {
         guard let calculatorModel else {return}
         
         calculatorModel.changeValue(valueType: .first, string: value)
-        
         secondCurrencyValue.onNext(calculatorModel.calculateValue(valueType: .second))
         
 

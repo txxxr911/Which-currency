@@ -41,10 +41,19 @@ class CalculatorModel {
         switch valueType {
             
         case .first:
+            
+            print(secondValuteValue)
+            
             newValue = round(100 * secondValuteValue * Double(rate)) / 100
+            
+            self.firstValuteValue = newValue
+            
+            print(newValue)
             
         case .second:
             newValue = round(100 * firstValuteValue / Double(rate)) / 100
+            
+            self.secondValuteValue = newValue
         }
         
         return convertDoubleToString(value: newValue)
@@ -111,7 +120,7 @@ class CalculatorModel {
                 
         else {return 0}
         
-        let rate =  secondValute.value / firstValute.value
+        let rate = secondValute.value / firstValute.value
         
         
         return rate

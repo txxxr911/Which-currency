@@ -21,6 +21,8 @@ enum Resources {
         
         static let titleGray = UIColor(hexString: "#545C77")
         static let favouriteStarColor = UIColor(hexString: "#FFCF48")
+        
+        static let textFieldBackground = UIColor(hexString: "#FFFFFF")
     }
     
     enum Strings {
@@ -105,6 +107,10 @@ enum Resources {
     enum Fonts {
         static func helvelticaRegular(with size: CGFloat) -> UIFont {
             UIFont(name: "Helvetica", size: size) ?? UIFont()
+        }
+        
+        static func helveticaBold(with size: CGFloat) -> UIFont {
+            UIFont(name: "Helvetica-Bold", size: size) ?? UIFont()
         }
     }
 }

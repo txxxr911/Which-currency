@@ -12,7 +12,7 @@ final class CalculatorController: BaseController, UITextFieldDelegate {
     let firstValuteLabel: UIButton = {
         
         let button = UIButton()
-        button.titleLabel?.font = Resources.Fonts.helvelticaRegular(with: 16)
+        button.titleLabel?.font = Resources.Fonts.helvelticaRegular(with: 26)
         button.setTitleColor(Resources.Colors.titleGray, for: .normal)
         button.titleLabel?.textAlignment = .left
         
@@ -22,7 +22,7 @@ final class CalculatorController: BaseController, UITextFieldDelegate {
     let secondValuteLabel: UIButton = {
         
         let button = UIButton()
-        button.titleLabel?.font = Resources.Fonts.helvelticaRegular(with: 16)
+        button.titleLabel?.font = Resources.Fonts.helvelticaRegular(with: 26)
         button.setTitleColor(Resources.Colors.titleGray, for: .normal)
         button.titleLabel?.textAlignment = .left
 
@@ -49,6 +49,9 @@ final class CalculatorController: BaseController, UITextFieldDelegate {
         
         return textField
     }()
+    
+    var arrowDownImageView1 = UIImageView()
+    var arrowDownImageView2 = UIImageView()
     
     var firstCurrencyMenu = UIMenu()
     var secondCurrencyMenu = UIMenu()
@@ -95,8 +98,19 @@ final class CalculatorController: BaseController, UITextFieldDelegate {
         view.setupView(firstValuteLabel)
         view.setupView(secondValuteLabel)
         
-        firstValuteTextField.backgroundColor = .green
-        secondValuteTextField.backgroundColor = .red
+        
+        firstValuteTextField.backgroundColor = Resources.Colors.textFieldBackground
+        secondValuteTextField.backgroundColor = Resources.Colors.textFieldBackground
+        
+        firstValuteTextField.layer.cornerRadius = 15
+        secondValuteTextField.layer.cornerRadius = 15
+        
+        firstValuteTextField.font = Resources.Fonts.helveticaBold(with: 28)
+        secondValuteTextField.font = Resources.Fonts.helveticaBold(with: 28)
+        
+        
+        firstValuteTextField.textAlignment = .center
+        secondValuteTextField.textAlignment = .center
         
         firstValuteTextField.inputView = UIView()
         secondValuteTextField.inputView = UIView()
@@ -107,6 +121,9 @@ final class CalculatorController: BaseController, UITextFieldDelegate {
         firstValuteLabel.setTitle("USD", for: .normal)
 
         secondValuteLabel.setTitle("EUR", for: .normal)
+        
+        firstValuteLabel.titleLabel?.font = Resources.Fonts.helveticaBold(with: 24)
+        secondValuteLabel.titleLabel?.font = Resources.Fonts.helveticaBold(with: 24)
 
         
         firstValuteLabel.menu = UIMenu()
@@ -122,34 +139,38 @@ final class CalculatorController: BaseController, UITextFieldDelegate {
         }
         
         
+        arrowDownImageView1.image = UIImage(systemName: "chevron.down")
+        arrowDownImageView2.image = UIImage(systemName: "chevron.down")
+        
         
 //        firstValuteTextField.inputView = keyboardView
         
         NSLayoutConstraint.activate([
             
             firstValuteTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            firstValuteTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-            firstValuteTextField.widthAnchor.constraint(equalToConstant: 90),
+            firstValuteTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            firstValuteTextField.leadingAnchor.constraint(equalTo: firstValuteLabel.trailingAnchor, constant: 25),
+            firstValuteTextField.heightAnchor.constraint(equalToConstant: 50),
             
             secondValuteTextField.topAnchor.constraint(equalTo: firstValuteTextField.bottomAnchor, constant: 50),
-            secondValuteTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-            secondValuteTextField.widthAnchor.constraint(equalToConstant: 90),
+            secondValuteTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            secondValuteTextField.leadingAnchor.constraint(equalTo: secondValuteLabel.trailingAnchor, constant: 25),
+            secondValuteTextField.heightAnchor.constraint(equalToConstant: 50),
             
             
             firstValuteLabel.centerYAnchor.constraint(equalTo: firstValuteTextField.centerYAnchor),
             firstValuteLabel.widthAnchor.constraint(equalToConstant: 60),
-            firstValuteLabel.trailingAnchor.constraint(equalTo: firstValuteTextField.leadingAnchor, constant: -60),
+            firstValuteLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
 
             secondValuteLabel.centerYAnchor.constraint(equalTo: secondValuteTextField.centerYAnchor),
             secondValuteLabel.widthAnchor.constraint(equalToConstant: 60),
-            secondValuteLabel.trailingAnchor.constraint(equalTo: secondValuteTextField.leadingAnchor, constant: -60),
+            secondValuteLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             
             keyboardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            //keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            //keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             keyboardView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             keyboardView.widthAnchor.constraint(equalToConstant: 240),
-            keyboardView.heightAnchor.constraint(equalToConstant: 320)
+            keyboardView.heightAnchor.constraint(equalToConstant: 320),
+            
             
         ])
     }
